@@ -36,7 +36,7 @@
 				</button>
 			{/each}
 		</div>
-		<button class=" absolute left-[12px] bottom-[12px]">
+		<button on:click={() => (toggle = !toggle)} class=" absolute left-[12px] bottom-[12px]">
 			<NotificationIcon />
 		</button>
 	</div>
