@@ -4,12 +4,12 @@
 	import { onMount } from 'svelte';
 
 	let posts = [
-		{
-			id: '123',
-			title: '132123',
-			introduce: '!231231',
-			image: '1123123'
-		}
+		// {
+		// 	id: '123',
+		// 	title: '132123',
+		// 	introduce: '!231231',
+		// 	image: '1123123'
+		// }
 	];
 	onMount(async () => {
 		// posts 에 구매한 한 게시물 가져와서 보여주기

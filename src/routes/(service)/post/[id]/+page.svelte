@@ -1,17 +1,67 @@
 <script>
 	import { marked } from 'marked';
 	import LockIcon from '$lib/icons/LockIcon.svelte';
-	import { api } from '$lib/api.js';
+	import { api, user } from '$lib/api.js';
 	import { onMount } from 'svelte';
+	import { loadTossPayments } from "@tosspayments/tosspayments-sdk"
 
 	export let data;
-	const { POST_ID } = data.POST_ID;
+	const POST_ID = data.POST_ID;
 
 	async function purhcase() {
-		// 구매하는 로직
+		const tossPayments = await loadTossPayments("test_ck_Lex6BJGQOVDKEyjalPO3W4w2zNbg");
+
+		const payment = tossPayments.payment({ customerKey: $user.id });
+
+		const { orderId, paymentKey, amount } = await payment.requestPayment({
+			method: "CARD",
+			orderId: crypto.randomUUID(),
+			orderName: title,
+			amount: {
+				currency: "KRW",
+				value: price,
+			},
+			windowTarget: "iframe",
+		});
+
+		await api.post(`/post/${POST_ID}/buy`, { orderId, paymentKey, amount: amount.value });
+
+		alert('구매 성공');
 	}
-	onMount(() => {
-		// 가져오는 로직
+
+	onMount(async () => {
+		const { data: response } = await api.get(`/post/${POST_ID}`);
+		const post = response.content.post;
+
+		const raw_content = JSON.parse(post.content);
+		for (let i = 0; i < raw_content.length; i++) {
+			if (raw_content[i].type === 'image') {
+				const res = await api.get(`/upload/${raw_content[i].src}`);
+
+				raw_content[i].src = res.data.content.image.fileName;
+			}
+		}
+
+		title = post.title;
+		content = raw_content;
+		introduce = post.introduce;
+		price = post.price;
+		is_paid = post.paid;
+		background_image = '/api/uploads/' + post.backgroundImage.fileName;
+		author = post.owner.name;
+		created_at = new Date(post.createdAt);
+
+		if (post.owner.id === $user.id) {
+			is_purchased = true;
+		}
+
+		const { data: response2 } = await api.get('/post/paid');
+
+		response2.content.posts.forEach((post) => {
+			if (post.id === POST_ID) {
+				is_purchased = true;
+			}
+		});
 	});
 	marked.use({
 		breaks: true,
@@ -27,7 +77,7 @@
 	let is_paid = true;
 	let background_image = '';
 	let author = '박건민';
-	let created_at = new Date();
+	let created_at = new Date()
 </script>
 
 <div
@@ -67,6 +117,7 @@
 	</div>
 	{#if (is_paid && is_purchased) || !is_paid}
 		<div class="w-full h-full mt-[25px] text-inherit">
+			{console.log(content)}
 			{#each content as c, index}
 				{#if c.type == 'markdown'}
 					{@html marked(c.markdown)}
@@ -74,7 +125,7 @@
 					<img
 						class="w-full rounded-[20px] my-[16px]"
 						alt="image_{index}"
-						src={'/api/upload/' + c.src}
+						src={'/api/uploads/' + c.src}
 					/>
 				{:else if c.type == 'linebreak'}
 					<br />

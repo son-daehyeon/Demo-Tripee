@@ -6,6 +6,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import PostList from '$lib/components/PostList.svelte';
 	import { goto } from '$app/navigation';
+	import { user,api } from '$lib/api.js'
 
 	function search() {
 		goto('/search?query=' + query);
@@ -15,20 +16,34 @@
 	let is_signup = false;
 
 	let query;
+
+	const fetch_user = async () => {
+		const { data: response } = await api.get('/auth/me');
+
+		if (response.content?.user) {
+			user.set(response.content.user);
+		}
+	};
+
+	fetch_user();
 </script>
 
 <div class="w-full bg-white">
 	<header class=" fixed w-full flex justify-end z-10">
 		<div class=" py-[20px] px-[38px]">
-			<button
-				on:click={() => {
+			{#if $user}
+				<p>{$user.name}님</p>
+			{:else}
+				<button
+					on:click={() => {
 					modal_toggle = true;
 					console.log(modal_toggle);
 				}}
-				class="bg-[#1A91FF] w-[73px] h-[30px] text-[16px] text-white rounded-[9px]"
-			>
-				시작하기
-			</button>
+					class="bg-[#1A91FF] w-[73px] h-[30px] text-[16px] text-white rounded-[9px]"
+				>
+					시작하기
+				</button>
+			{/if}
 		</div>
 	</header>
 	<main class="  w-full min-h-screen h-full flex flex-col items-center">
@@ -42,7 +57,7 @@
 						<input
 							bind:value={query}
 							on:keyup={(e) => {
-								if (e.key == 'Enter') search();
+								if (e.key === 'Enter') search();
 							}}
 							class=" absolute pl-[20px] text-[18px] border-[#C9C9C9] flex w-[525px] h-[44px] rounded-[20px] border"
 						/>
@@ -68,5 +83,5 @@
 	</main>
 </div>
 <Modal active={modal_toggle} toggle={() => (modal_toggle = false)}>
-	<LoginView />
+	<LoginView close={() => (modal_toggle = false)} />
 </Modal>

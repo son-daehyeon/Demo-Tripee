@@ -35,8 +35,12 @@
 			}
 
 			alert('회원가입 성공');
+
+			close();
 		}
 	};
+
+	export let close = () => {};
 </script>
 
 <svelte:window

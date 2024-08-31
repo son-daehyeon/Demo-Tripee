@@ -45,6 +45,9 @@
 	}
 
 	async function upload() {
+		console.log(background_image_file);
+		console.log(content);
+		console.log(introduce);
 		if (!background_image_file || content.length == 0 || !introduce) {
 			alert('글의 필수 요소들을 다 작성하여 주세요. ');
 			return;
@@ -52,7 +55,7 @@
 		let background_image_filename;
 		const background_image_upload_formData = new FormData();
 		background_image_upload_formData.append('file', background_image_file);
-		const background_image_file_upload_res = await api.put(
+		const background_image_file_upload_res = await api.post(
 			'/upload',
 			background_image_upload_formData,
 			{
@@ -60,21 +63,21 @@
 					'Content-Type': 'multipart/form-data'
 				}
 			}
-		);
+		)
+		// "[{"type":"markdown","markdown":"dasdsa"},{"type":"image"}]"
 		if (background_image_file_upload_res) {
 			if (background_image_file_upload_res.data.error) {
 				alert(background_image_file_upload_res.data.error);
 				return;
 			}
-			const { fileName } = background_image_file_upload_res.data.content;
-			background_image_filename = fileName;
+			background_image_filename = background_image_file_upload_res.data.content.image.id;
 			console.log('백그라운드 이미지 업로드 완료');
 		}
 		for (const c of content) {
 			if (c.type == 'image' && c.file) {
 				const formData = new FormData();
 				formData.append('file', c.file);
-				let file_upload_res = await api.put('/upload', formData, {
+				let file_upload_res = await api.post('/upload', formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data'
 					}
@@ -84,13 +87,22 @@
 						alert(file_upload_res.data.error);
 						return;
 					}
-					const { fileName } = file_upload_res.data.content;
+					const fileName = file_upload_res.data.content.image.id;
 					c.src = fileName;
 					delete c.file;
 					console.log('이미지 업로드 완료');
 				}
 			}
 		}
+
+		console.log({
+			title,
+			content: JSON.stringify(content),
+			introduce,
+			imageId: background_image_filename,
+			isPaid: Number(price?.replace(/\D/g, '')) > 0,
+			price: Number(price?.replace(/\D/g, ''))
+		});
 
 		const res = await api.put('/post', {
 			title,

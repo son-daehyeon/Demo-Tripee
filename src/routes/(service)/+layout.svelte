@@ -4,13 +4,26 @@
 	import SearchIcon from '$lib/icons/SearchIcon.svelte';
 	import Notification from '$lib/components/Notification.svelte';
 	import '../../app.css';
+	import { api, user } from '$lib/api.js';
 
 	export let data;
 	let { query } = data;
 
 	function search() {
-		goto('/search?query=' + query);
+		goto('/').then(() => {
+			goto('/search?query='+query);
+		})
 	}
+
+	const fetch_user = async () => {
+		const { data: response } = await api.get('/auth/me');
+
+		if (response.content?.user) {
+			user.set(response.content.user);
+		}
+	};
+
+	fetch_user();
 </script>
 
 <div class="w-full bg-white flex flex-col ">

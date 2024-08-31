@@ -4,13 +4,13 @@ import Cookies from 'js-cookie';
 import { writable } from 'svelte/store';
 
 export const api = axios.create({
-	baseURL: '/api',
+	baseURL: 'http://localhost:5173/api',
 	headers: {
 		'Content-Type': 'application/json'
 	}
 });
 
-export const user = createStore();
+export const user = writable(null);
 
 export const setToken = (accessToken, refreshToken) => {
 	Cookies.set('accessToken', accessToken, { expires: 1 });
@@ -37,26 +37,21 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-	(response) => {
-		return response;
-	},
-	async (error) => {
-		const originalRequest = error.config;
-
-		if (error.response.data.error === 'Access Token이 만료되었습니다.') {
+	async (response) => {
+		if (response.data.error === 'Access Token이 만료되었습니다.') {
 			const refreshToken = Cookies.get('refreshToken');
 
 			const response = await api.post('/auth/refresh', { refreshToken });
 
-			Cookies.set('accessToken', response.data.accessToken, { expires: 1 });
-			Cookies.set('refreshToken', response.data.refreshToken, { expires: 30 });
+			Cookies.set('accessToken', response.data.content.accessToken, { expires: 1 });
+			Cookies.set('refreshToken', response.data.content.refreshToken, { expires: 30 });
 
-			originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
+			api.defaults.headers.Authorization = `Bearer ${response.data.content.accessToken}`;
 
-			return api(originalRequest);
+			return api(response.config);
 		}
 
-		return Promise.reject(error);
+		return response;
 	}
 );
 

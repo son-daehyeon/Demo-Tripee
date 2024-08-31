@@ -10,6 +10,8 @@
 	let id = '';
 	let password = '';
 
+	let active_login_button = false;
+
 	const login = async () => {
 		const res = await api.post('/auth/login', {id, password});
 
@@ -27,10 +29,22 @@
 
 			$user = res2.data.content;
 
-			alert('로그인 성공');
+			close();
 		}
 	};
+
+	function condition_for_login() {
+		active_login_button = (password !== '') && (id !== '');
+	}
+
+	export let close = () => {};
 </script>
+
+<svelte:window
+	on:input={(e) => {
+		condition_for_login();
+	}}
+/>
 
 {#if !is_signup}
 	<div class=" w-[135px] mt-[35px]">
@@ -51,8 +65,11 @@
 			bind:value={password}
 		/>
 		<button
-			class="w-[244px] h-[32px] text-[14px] bg-[#D9D9D9] text-[#616161] rounded-[10px] mt-[27px]"
 			on:click={login}
+			disabled={!active_login_button}
+			class="w-[244px] h-[32px] text-[14px]
+         {active_login_button ? 'bg-[#1A91FF] text-white' : 'bg-[#D9D9D9] text-[#616161]'}
+         rounded-[10px] my-[27px]"
 		>
 			로그인
 		</button>
@@ -63,5 +80,5 @@
 		>
 	</div>
 {:else}
-	<SignUpView />
+	<SignUpView close={close} />
 {/if}

@@ -1,23 +1,25 @@
 <script>
     import PaidIcon from '$lib/icons/PaidIcon.svelte';
+	import { api } from '$lib/api';
+		import { page } from "$app/stores";
 
-	export let posts = [
-		{ title: '글 제목', content: '글내용' },
-		{ title: '글 제목', content: '글내용' },
-		{ title: '제주도에서 귤 농사 체험하기', content: '글내용' },
-		{ title: '글 제목', content: '글내용', isPaid: true },
-		{ title: '글 제목', content: '글내용' },
-		{ title: '글 제목', content: '글내용', isPaid: true },
-		{ title: '글 제목', content: '글내용', isPaid: true },
-		{ title: '글 제목', content: '글내용' },
-		{ title: '글 제목', content: '글내용' }
-	];
+	export let posts = [];
+
+	const fetchPosts = async () => {
+		const { data: response } = await api.get(`/post`);
+
+		posts = response.content.posts;
+	};
+
+	if (!$page.url.pathname.includes('search')) {
+		fetchPosts();
+	}
 </script>
 
 <div class="w-full grid grid-cols-3 justify-items-center justify-between gap-y-[75px]">
 	{#each posts as post}
 		<div class="w-[296px]">
-			<div class="w-[296px] h-[221px] bg-zinc-200 rounded-[15px]"></div>
+			<img class="w-[296px] h-[221px] bg-zinc-200 rounded-[15px] object-cover" src={`/api/uploads/${post.backgroundImage.fileName}`} alt={post.title} />
 			<div class="flex items-center mt-[9px]">
 				<p class="text-[22px]">
 					{post.title}
@@ -30,7 +32,7 @@
 					</div>
 				{/if}
 			</div>
-			<p class="text-[13px] text-[#747474]">{post.content}</p>
+			<p class="text-[13px] text-[#747474]">{post.introduce}</p>
 		</div>
 	{/each}
 </div>

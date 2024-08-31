@@ -1,18 +1,18 @@
 <script>
-	import SearchIcon from '$lib/icons/SearchIcon.svelte';
-	import ScrollDownIcon from '$lib/icons/ScrollDownIcon.svelte';
-	import LoginView from '$lib/views/LoginView.svelte';
-	import Modal from '$lib/components/Modal.svelte';
 	import PostList from '$lib/components/PostList.svelte';
-
+	import { api } from '$lib/api.js';
 	import { onMount } from 'svelte';
 
 	export let data;
 	let { query } = data;
 
-	let posts;
-	onMount(() => {
-		// query 기반으로 게시글 가져오기 posts에 게시글 배열 저장
+	let posts = [];
+
+	onMount(async () => {
+		const { data: response } = await api.get(`/post`);
+
+		console.log(response.content.posts);
+	  posts = response.content.posts.filter((post) => post.title.includes(query));
 	});
 </script>
 

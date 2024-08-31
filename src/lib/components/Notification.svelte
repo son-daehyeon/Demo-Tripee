@@ -9,9 +9,11 @@
 			image: ''
 		}
 	];
+
 	async function fetch_notificaitons() {
 		// 노티 가져오기
 	}
+
 	async function view_notification(id) {
 		// 노티 터치 시
 	}
