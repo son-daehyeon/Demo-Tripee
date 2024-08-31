@@ -1,7 +1,8 @@
 <script>
 	import Logo from '$lib/Logo.svelte';
-  import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import SearchIcon from '$lib/icons/SearchIcon.svelte';
+	import Notification from '$lib/components/Notification.svelte';
 	import '../../app.css';
 
 	export let data;
@@ -16,9 +17,9 @@
 	<header class="w-full flex justify-center items-center z-10 h-[71px] border-b border-[#C9C9C9]">
 		<div class="max-w-[1100px] w-full flex justify-between items-center">
 			<div class="flex h-full w-[650px] justify-between">
-				<button class="w-[96px] h-[41px]" on:click={()=>goto('/')}>
+				<button class="w-[96px] h-[41px]" on:click={() => goto('/')}>
 					<Logo />
-        </button>
+				</button>
 				<div class="relative w-[525px] h-[44px]">
 					<input
 						bind:value={query}
@@ -49,3 +50,4 @@
 		<slot />
 	</main>
 </div>
+<Notification />
