@@ -1,8 +1,8 @@
 <script>
 	import Logo from '$lib/Logo.svelte';
-	import SearchIcon from '$lib/SearchIcon.svelte';
-	import ScrollDownIcon from '$lib/ScrollDownIcon.svelte';
-	import PaidIcon from '$lib/PaidIcon.svelte';
+	import SearchIcon from '$lib/icons/SearchIcon.svelte';
+	import ScrollDownIcon from '$lib/icons/ScrollDownIcon.svelte';
+	import PaidIcon from '$lib/icons/PaidIcon.svelte';
 	import LoginView from '$lib/views/LoginView.svelte';
 	import Modal from '$lib/Modal.svelte';
 
@@ -64,7 +64,7 @@
 			</div>
 		</section>
 		<section class="w-full max-w-[1100px] mt-16">
-			<p class="text-[33px] w-full text-center mb-[32px]">트리피에서만의 따끈한 최신글 🌱</p>
+			<p class="text-[33px] w-full text-center mb-[32px]">최신글 🌱</p>
 
 			<div class="w-full grid grid-cols-3 justify-items-center justify-between gap-y-[75px]">
 				{#each dummy as article}

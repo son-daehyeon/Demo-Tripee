@@ -1,5 +1,5 @@
 <script>
-	import CloseIcon from '$lib/CloseIcon.svelte';
+	import CloseIcon from '$lib/icons/CloseIcon.svelte';
 
 	export let active = false;
 	export let toggle = () => {};

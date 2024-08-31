@@ -95,6 +95,7 @@
 		placeholder="비밀번호를 입력해주세요"
 	/>
 	<button
+        on:click={register}
 		disabled={!active_signup_button}
 		class="w-[244px] h-[32px] text-[14px]
          {active_signup_button ? 'bg-[#1A91FF] text-white' : 'bg-[#D9D9D9] text-[#616161]'}
