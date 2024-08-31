@@ -4,11 +4,13 @@
 	import { api, user } from '$lib/api.js';
 	import { onMount } from 'svelte';
 	import { loadTossPayments } from "@tosspayments/tosspayments-sdk"
+	import Bookmark from '$lib/components/Bookmark.svelte';
 
 	export let data;
 	const POST_ID = data.POST_ID;
 
 	let fetched = true;
+	let is_owner = false;
 
 	async function purhcase() {
 		const tossPayments = await loadTossPayments("test_ck_Lex6BJGQOVDKEyjalPO3W4w2zNbg");
@@ -58,6 +60,7 @@
 
 		if (post.owner.id === $user.id) {
 			is_purchased = true;
+			is_owner = true;
 		}
 
 		const { data: response2 } = await api.get('/post/paid');
@@ -129,7 +132,6 @@
 		</div>
 		{#if (is_paid && is_purchased) || !is_paid}
 			<div class="w-full h-full mt-[25px] text-inherit">
-				{console.log(content)}
 				{#each content as c, index}
 					{#if c.type == 'markdown'}
 						{@html marked(c.markdown)}
@@ -172,7 +174,9 @@
 	{/if}
 {/if}
 
-
+{#if !is_owner}
+	<Bookmark id={POST_ID}/>
+{/if}
 
 <style>
 	input::-webkit-outer-spin-button,

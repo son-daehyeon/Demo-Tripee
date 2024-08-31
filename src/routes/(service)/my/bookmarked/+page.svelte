@@ -10,6 +10,8 @@
 		const { data: response } = await api.get('/post/saved');
 
 	  posts = response.content?.posts
+
+		console.log(posts[0]);
 	});
 </script>
 
@@ -22,6 +24,6 @@
 			<p class="text-black text-[18px] w-[774px] font-medium break-all">{post.title}</p>
 			<p class="text-black text-[12px] w-[774px] break-all">{post.introduce}</p>
 		</div>
-		<img class="ml-[16px]" alt="post_image" src={post.image} />
+			<img class="ml-[16px] w-20 h-20 object-cover" alt="post_image" src={`/api/uploads/${post.backgroundImage.fileName}`} />
 	</button>
 {/each}

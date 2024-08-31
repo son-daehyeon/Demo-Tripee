@@ -11,6 +11,7 @@
 	import LoginView from '$lib/views/LoginView.svelte';
 	import '../../app.css';
 	import { api, user } from '$lib/api.js';
+	import Bookmark from '$lib/components/Bookmark.svelte';
 
 	export let data;
 	let { query } = data;

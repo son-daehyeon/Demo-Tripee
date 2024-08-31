@@ -36,7 +36,7 @@
 						{post.title}
 					</p>
 				</a>
-				{#if post.isPaid}
+				{#if post.paid}
 					<div
 						class="w-[17px] h-[17px] ml-1 rounded-full bg-[#1A91FF] flex justify-center items-center"
 					>

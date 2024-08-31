@@ -28,6 +28,6 @@
 			<p class="text-black text-[18px] w-[774px] font-medium break-all">{post.title}</p>
 			<p class="text-black text-[12px] w-[774px] break-all">{post.introduce}</p>
 		</div>
-		<img class="ml-[16px]" alt="post_image" src={post.image} />
+		<img class="ml-[16px] h-20" alt="post_image" src={`/api/uploads/${post.backgroundImage.fileName}`} />
 	</button>
 {/each}

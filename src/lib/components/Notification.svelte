@@ -64,3 +64,14 @@
 		</div>
 	</button>
 {/if}
+
+<!--
+<button
+		on:click={onBookmarkClick}
+		class="fixed right-[30px] bottom-[30px] rounded-full border bg-white w-[50px] h-[50px]"
+	>
+		<div class=" relative w-full h-full flex items-center justify-center">
+			<BookmarkIcon />
+		</div>
+	</button>
+	-->
