@@ -95,15 +95,6 @@
 			}
 		}
 
-		console.log({
-			title,
-			content: JSON.stringify(content),
-			introduce,
-			imageId: background_image_filename,
-			isPaid: Number(price?.replace(/\D/g, '')) > 0,
-			price: Number(price?.replace(/\D/g, ''))
-		});
-
 		const res = await api.put('/post', {
 			title,
 			content: JSON.stringify(content),

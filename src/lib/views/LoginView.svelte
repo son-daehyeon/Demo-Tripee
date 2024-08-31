@@ -27,7 +27,7 @@
 
 			const res2 = await api.get('/auth/me');
 
-			$user = res2.data.content;
+			$user = res2.data.content.user;
 
 			close();
 		}

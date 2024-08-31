@@ -12,7 +12,10 @@
 		// }
 	];
 	onMount(async () => {
-		// posts 에 구매한 한 게시물 가져와서 보여주기
+
+		const { data: response } = await api.get('/post/paid');
+
+		posts = response.content?.posts
 	});
 </script>
 

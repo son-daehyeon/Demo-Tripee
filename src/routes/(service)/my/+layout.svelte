@@ -41,8 +41,8 @@
 	<div class="w-[217px] min-h-screen h-full flex flex-col items-center border-r border-[#C9C9C9]">
 		<div class="w-[179px] flex items-center justify-between my-[14px]">
 			<div class="flex space-x-[5px] items-center">
-				<img class="w-[36px] h-[36px] rounded-full" alt="profile" src={profile_image} />
-				<p class="text-black text-[24px]">{name}</p>
+				<img class="w-[36px] h-[36px] rounded-full" alt="profile" src={$user?.avatar ? `/api/uploads/${$user?.avatar?.fileName}` : '/profile.png'} />
+				<p class="text-black text-[24px]">{$user?.name}</p>
 			</div>
 			<button
 				on:click={() => {

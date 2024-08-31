@@ -1,21 +1,29 @@
 <script>
 	import NotificationIcon from '$lib/icons/NotificationIcon.svelte';
+	import { api } from '$lib/api.js';
+	import { goto } from '$app/navigation';
 
 	let toggle = false;
-	let notifications = [
-		{
-			title: 'tesae',
-			content: 'asdasdasdasdascontent',
-			image: ''
-		}
-	];
+	let notifications = [];
 
 	async function fetch_notificaitons() {
-		// 노티 가져오기
+
+		const {data: response} = await api.get('/notification');
+
+		notifications = response.content?.notifications.filter(x => !x.read);
 	}
 
+	fetch_notificaitons()
+
 	async function view_notification(id) {
-		// 노티 터치 시
+
+		const redirectUrl = notifications.filter(x => x.id === id)[0].redirectUrl;
+
+		console.log(await api.patch(`notification/read/${id}`));
+
+		notifications = notifications.filter(x => !x.read);
+
+		goto(redirectUrl);
 	}
 </script>
 
@@ -26,7 +34,6 @@
 		<div class="flex flex-col items-center p-[14px] space-y-[12px]">
 			{#each notifications as noti}
 				<button on:click={() => view_notification(noti.id)} class="w-full flex items-center">
-					<img class="w-[35px] h-[35px]" alt="noti_image" src={noti.image} />
 					<div class="flex flex-col">
 						<p class="text-[12px] text-black my-[3px]">
 							{noti.title}

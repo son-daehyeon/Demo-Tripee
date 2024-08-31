@@ -3,17 +3,13 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
-	let posts = [
-		{
-			id: '123',
-			title: '132123',
-			introduce:
-				'!2311231231232adasdsadasdasd2311231231232adasdsadasdasd2311231231232adasdsadasdasd2311231231232adasdsadasdasd13123123123122312311231231232131231231231223123112312312321312312312312231',
-			image: '1123123'
-		}
-	];
+	let posts = [];
+
 	onMount(async () => {
-		// posts 에 북마크 한 게시물 가져와서 보여주기
+
+		const { data: response } = await api.get('/post/saved');
+
+	  posts = response.content?.posts
 	});
 </script>
 
