@@ -1,7 +1,7 @@
 <script>
     import PaidIcon from '$lib/icons/PaidIcon.svelte';
 	import { api } from '$lib/api';
-		import { page } from "$app/stores";
+	import { page } from "$app/stores";
 
 	export let posts = [];
 
