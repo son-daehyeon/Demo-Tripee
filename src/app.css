@@ -27,9 +27,6 @@
 	ul {
 		@apply list-inside list-disc marker:text-black;
 	}
-	a {
-		@apply text-sky-500 hover:text-sky-800;
-	}
 }
 
 * {
