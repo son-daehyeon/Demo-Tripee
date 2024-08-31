@@ -7,7 +7,8 @@
 		{
 			id: '123',
 			title: '132123',
-			introduce: '!231231'
+			introduce: '!231231',
+			image: '1123123'
 		}
 	];
 	onMount(async () => {
