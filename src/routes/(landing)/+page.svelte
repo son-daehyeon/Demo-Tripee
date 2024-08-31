@@ -2,15 +2,20 @@
 	import Logo from '$lib/Logo.svelte';
 	import SearchIcon from '$lib/icons/SearchIcon.svelte';
 	import ScrollDownIcon from '$lib/icons/ScrollDownIcon.svelte';
+	import DropBoxIcon from '$lib/icons/DropBoxIcon.svelte';
+	import PencilIcon from '$lib/icons/PencilIcon.svelte';
+	import ProfileIcon from '$lib/icons/ProfileIcon.svelte';
+	import LogoutIcon from '$lib/icons/LogoutIcon.svelte';
 	import LoginView from '$lib/views/LoginView.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import PostList from '$lib/components/PostList.svelte';
 	import { goto } from '$app/navigation';
-	import { user,api } from '$lib/api.js'
+	import { user, api } from '$lib/api.js';
 
 	function search() {
 		goto('/search?query=' + query);
 	}
+	let dropbox_toggle = false;
 	let modal_toggle = false;
 
 	let is_signup = false;
@@ -25,6 +30,10 @@
 		}
 	};
 
+	const logout = async () => {
+		
+	}
+
 	fetch_user();
 </script>
 
@@ -32,13 +41,52 @@
 	<header class=" fixed w-full flex justify-end z-10">
 		<div class=" py-[20px] px-[38px]">
 			{#if $user}
-				<p>{$user.name}님</p>
+				<button
+					on:click={() => {
+						dropbox_toggle = !dropbox_toggle;
+					}}
+					class=" relative text-[16px] text-black rounded-[9px] flex items-center space-x-1"
+				>
+					<p class="text-black text-[16px]">{$user.name}님</p>
+					<div class="{dropbox_toggle ? 'rotate-180' : 'rotate-0'} ">
+						<DropBoxIcon />
+					</div>
+				</button>
+				{#if dropbox_toggle}
+					<div
+						class="absolute w-[96px] h-[100px] rounded-[10px] border border-[#D8D8D8] bg-white z-50 text-[13px] text-black flex flex-col justify-center pl-[11px] space-y-[13px]"
+					>
+						<button
+							on:click={() => {
+								dropbox_toggle = false;
+								goto('/write');
+							}}
+							class="flex items-center space-x-1"
+						>
+							<PencilIcon />
+							<p>글 작성</p>
+						</button>
+						<button
+							on:click={() => {
+								dropbox_toggle = false;
+								goto('/my/posted');
+							}}
+							class="flex items-center space-x-1"
+						>
+							<ProfileIcon />
+							<p>내 정보</p>
+						</button>
+						<button on:click={logout} class="flex items-center space-x-1">
+							<LogoutIcon />
+							<p>로그아웃</p>
+						</button>
+					</div>
+				{/if}
 			{:else}
 				<button
 					on:click={() => {
-					modal_toggle = true;
-					console.log(modal_toggle);
-				}}
+						modal_toggle = true;
+					}}
 					class="bg-[#1A91FF] w-[73px] h-[30px] text-[16px] text-white rounded-[9px]"
 				>
 					시작하기

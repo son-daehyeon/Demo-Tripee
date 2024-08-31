@@ -1,7 +1,8 @@
 <script>
-    import PaidIcon from '$lib/icons/PaidIcon.svelte';
+	import PaidIcon from '$lib/icons/PaidIcon.svelte';
 	import { api } from '$lib/api';
-		import { page } from "$app/stores";
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let posts = [];
 
@@ -18,8 +19,17 @@
 
 <div class="w-full grid grid-cols-3 justify-items-center justify-between gap-y-[75px]">
 	{#each posts as post}
-		<div class="w-[296px]">
-			<img class="w-[296px] h-[221px] bg-zinc-200 rounded-[15px] object-cover" src={`/api/uploads/${post.backgroundImage.fileName}`} alt={post.title} />
+		<button
+			on:click={() => {
+				goto('/post/' + post.id);
+			}}
+			class="w-[296px]"
+		>
+			<img
+				class="w-[296px] h-[221px] bg-zinc-200 rounded-[15px] object-cover"
+				src={`/api/uploads/${post.backgroundImage.fileName}`}
+				alt={post.title}
+			/>
 			<div class="flex items-center mt-[9px]">
 				<p class="text-[22px]">
 					{post.title}
@@ -33,6 +43,6 @@
 				{/if}
 			</div>
 			<p class="text-[13px] text-[#747474]">{post.introduce}</p>
-		</div>
+		</button>
 	{/each}
 </div>
