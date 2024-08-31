@@ -47,6 +47,9 @@
 				</div>
 			</div>
 			<div class=" py-[20px] px-[38px]">
+			{#if $user}
+				<p>{$user.name}님</p>
+			{:else}
 				<button
 					on:click={() => {
 						modal_toggle = true;
@@ -55,6 +58,7 @@
 				>
 					시작하기
 				</button>
+			{/if}
 			</div>
 		</div>
 	</header>

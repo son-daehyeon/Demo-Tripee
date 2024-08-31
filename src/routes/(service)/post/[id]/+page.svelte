@@ -34,16 +34,21 @@
 		const post = response.content.post;
 
 		const raw_content = JSON.parse(post.content);
-		for (let i = 0; i < raw_content.length; i++) {
-			if (raw_content[i].type === 'image') {
-				const res = await api.get(`/upload/${raw_content[i].src}`);
+		if (raw_content !== null) {
+			for (let i = 0; i < raw_content.length; i++) {
+				if (raw_content[i].type === 'image') {
+					const res = await api.get(`/upload/${raw_content[i].src}`);
 
-				raw_content[i].src = res.data.content.image.fileName;
+					raw_content[i].src = res.data.content.image.fileName;
+				}
 			}
+			content = raw_content;
 		}
+		console.log(raw_content);
+
 
 		title = post.title;
-		content = raw_content;
+
 		introduce = post.introduce;
 		price = post.price;
 		is_paid = post.paid;
