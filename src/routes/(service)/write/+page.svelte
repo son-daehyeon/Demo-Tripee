@@ -45,6 +45,10 @@
 	}
 
 	async function upload() {
+		if (!background_image_file || content.length == 0 || !introduce) {
+			alert('글의 필수 요소들을 다 작성하여 주세요. ');
+			return;
+		}
 		let background_image_filename;
 		const background_image_upload_formData = new FormData();
 		background_image_upload_formData.append('file', background_image_file);
@@ -215,7 +219,7 @@
 			class="text-[18px] outline-none ring-0 placeholder:text-[#A0A0A0] w-2/3"
 			placeholder="가격"
 		/>
-		<button class="p-[8px] bg-[#1A91FF] rounded-[11px] text-white"
+		<button on:click={upload} class="p-[8px] bg-[#1A91FF] rounded-[11px] text-white"
 			>{Number(price?.replace(/\D/g, '')) > 0 ? '유료로' : '무료로'} 공유하기
 		</button>
 	</div>
