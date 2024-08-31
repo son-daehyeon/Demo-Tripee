@@ -21,9 +21,11 @@
 		<div class="w-[296px]">
 			<img class="w-[296px] h-[221px] bg-zinc-200 rounded-[15px] object-cover" src={`/api/uploads/${post.backgroundImage.fileName}`} alt={post.title} />
 			<div class="flex items-center mt-[9px]">
-				<p class="text-[22px]">
-					{post.title}
-				</p>
+				<a href="/post/{post.id}">
+					<p class="text-[22px]">
+						{post.title}
+					</p>
+				</a>
 				{#if post.isPaid}
 					<div
 						class="w-[17px] h-[17px] ml-1 rounded-full bg-[#1A91FF] flex justify-center items-center"
