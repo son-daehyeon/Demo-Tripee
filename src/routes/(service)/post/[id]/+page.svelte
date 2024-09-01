@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import { loadTossPayments } from "@tosspayments/tosspayments-sdk"
 	import Bookmark from '$lib/components/Bookmark.svelte';
+	import { goto } from '$app/navigation';
 
 	export let data;
 	const POST_ID = data.POST_ID;
@@ -35,7 +36,9 @@
 
 		await api.post(`/post/${POST_ID}/buy`, { orderId, paymentKey, amount: amount.value });
 
-		alert('구매 성공');
+		goto('/').then(() => {
+			goto('/post/' + POST_ID);
+		});
 	}
 
 	onMount(async () => {

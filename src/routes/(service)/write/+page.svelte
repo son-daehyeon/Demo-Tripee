@@ -4,6 +4,7 @@
 	import ImageIcon from '$lib/icons/ImageIcon.svelte';
 
 	import { api } from '$lib/api.js';
+	import { goto } from '$app/navigation';
 
 	marked.use({
 		breaks: true,
@@ -109,7 +110,9 @@
 				alert(res.data.error);
 				return;
 			}
-			alert('작성 성공');
+			goto('/').then(() => {
+				goto('/my/posted');
+			});
 		}
 	}
 

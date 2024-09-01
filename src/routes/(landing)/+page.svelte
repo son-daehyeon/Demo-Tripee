@@ -11,6 +11,7 @@
 	import PostList from '$lib/components/PostList.svelte';
 	import { goto } from '$app/navigation';
 	import { user, api, setToken } from '$lib/api.js';
+	import Notification from '$lib/components/Notification.svelte';
 
 	function search() {
 		goto('/search?query=' + query);
@@ -135,3 +136,6 @@
 <Modal active={modal_toggle} toggle={() => (modal_toggle = false)}>
 	<LoginView close={() => (modal_toggle = false)} />
 </Modal>
+{#if $user}
+	<Notification />
+{/if}
