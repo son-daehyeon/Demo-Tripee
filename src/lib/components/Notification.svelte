@@ -17,6 +17,12 @@
 
 	async function view_notification(id) {
 
+		for (let noti of notifications) {
+			if (noti.id === id) {
+				noti.read = true;
+			}
+		}
+
 		notifications = notifications.filter(x => !x.read);
 
 		await api.patch(`/notification/read/${id}`);
