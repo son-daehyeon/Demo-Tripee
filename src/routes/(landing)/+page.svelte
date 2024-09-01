@@ -35,7 +35,7 @@
 		setToken(null, null);
 	}
 
-	if ($user) {
+	if (api.defaults.headers.common['Authorization']) {
 		fetch_user();
 	}
 </script>

@@ -35,7 +35,7 @@
 		}
 	};
 
-	if ($user) {
+	if (api.defaults.headers.common['Authorization']) {
 		fetch_user();
 	}
 	let modal_toggle = false;
