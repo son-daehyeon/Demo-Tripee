@@ -11,6 +11,7 @@
 		const { data: response } = await api.get('/post/owned');
 
 		posts = response.content?.posts
+		if (posts)
 		posts = posts.reverse();
 	});
 </script>

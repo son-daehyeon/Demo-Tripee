@@ -16,6 +16,7 @@
 		const { data: response } = await api.get('/post/paid');
 
 		posts = response.content?.posts
+		if (posts)
 		posts = posts.reverse();
 	});
 </script>

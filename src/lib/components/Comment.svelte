@@ -26,6 +26,7 @@
 
 		comments = response.content?.comments;
 
+		if (comments)
 		comments = comments.reverse()
 	}
 

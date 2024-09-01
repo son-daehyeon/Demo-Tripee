@@ -9,6 +9,7 @@
 	const fetchPosts = async () => {
 		const { data: response } = await api.get(`/post`);
 		posts = response.content.posts;
+		if (posts)
 		posts = posts.reverse();
 	};
 

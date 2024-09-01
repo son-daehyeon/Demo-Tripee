@@ -10,6 +10,7 @@
 		const { data: response } = await api.get('/post/saved');
 
 	  posts = response.content?.posts
+		if (posts)
 		posts = posts.reverse();
 
 		console.log(posts[0]);
