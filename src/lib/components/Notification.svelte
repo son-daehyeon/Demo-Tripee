@@ -17,15 +17,19 @@
 
 	async function view_notification(id) {
 
+		let url;
 		for (let noti of notifications) {
 			if (noti.id === id) {
 				noti.read = true;
+				url = noti.redirectUrl;
 			}
 		}
 
 		notifications = notifications.filter(x => !x.read);
 
 		await api.patch(`/notification/read/${id}`);
+
+		goto(url);
 	}
 </script>
 
