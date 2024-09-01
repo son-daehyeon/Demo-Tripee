@@ -34,7 +34,9 @@
 		setToken(null, null);
 	}
 
-	fetch_user();
+	if ($user) {
+		fetch_user();
+	}
 </script>
 
 <div class="w-full bg-white">
