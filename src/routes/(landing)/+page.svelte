@@ -10,7 +10,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import PostList from '$lib/components/PostList.svelte';
 	import { goto } from '$app/navigation';
-	import { user, api } from '$lib/api.js';
+	import { user, api, setToken } from '$lib/api.js';
 
 	function search() {
 		goto('/search?query=' + query);
@@ -31,7 +31,7 @@
 	};
 
 	const logout = async () => {
-		
+		setToken(null, null);
 	}
 
 	fetch_user();

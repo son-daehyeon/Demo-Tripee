@@ -13,12 +13,23 @@ export const api = axios.create({
 export const user = writable(null);
 
 export const setToken = (accessToken, refreshToken) => {
-	Cookies.set('accessToken', accessToken, { expires: 1 });
-	Cookies.set('refreshToken', refreshToken, { expires: 30 });
+
 
 	if (accessToken) {
+		Cookies.set('accessToken', accessToken, { expires: 1 });
+		Cookies.set('refreshToken', refreshToken, { expires: 30 });
+
 		api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+	} else {
+		Cookies.remove('accessToken');
+		Cookies.remove('refreshToken');
+
+		delete api.defaults.headers.common['Authorization'];
+
+		user.set(null);
 	}
+
+
 };
 
 api.interceptors.request.use(

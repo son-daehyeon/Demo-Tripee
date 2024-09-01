@@ -13,6 +13,11 @@
 	let is_owner = false;
 
 	async function purhcase() {
+		if (!$user) {
+			alert('로그인이 필요합니다.');
+			return;
+		}
+
 		const tossPayments = await loadTossPayments("test_ck_Lex6BJGQOVDKEyjalPO3W4w2zNbg");
 
 		const payment = tossPayments.payment({ customerKey: $user.id });
@@ -58,18 +63,20 @@
 		author = post.owner.name;
 		created_at = new Date(post.createdAt);
 
-		if (post.owner.id === $user.id) {
+		if (post.owner.id === $user?.id) {
 			is_purchased = true;
 			is_owner = true;
 		}
 
-		const { data: response2 } = await api.get('/post/paid');
+		if ($user) {
+			const { data: response2 } = await api.get('/post/paid');
 
-		response2.content.posts.forEach((post) => {
-			if (post.id === POST_ID) {
-				is_purchased = true;
-			}
-		});
+			response2.content.posts.forEach((post) => {
+				if (post.id === POST_ID) {
+					is_purchased = true;
+				}
+			});
+		}
 
 		fetched = false;
 	});
@@ -174,7 +181,7 @@
 	{/if}
 {/if}
 
-{#if !is_owner}
+{#if !is_owner && $user}
 	<Bookmark id={POST_ID}/>
 {/if}
 

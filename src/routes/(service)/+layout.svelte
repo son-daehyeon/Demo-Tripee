@@ -10,7 +10,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import LoginView from '$lib/views/LoginView.svelte';
 	import '../../app.css';
-	import { api, user } from '$lib/api.js';
+	import { api, setToken, user } from '$lib/api.js';
 	import Bookmark from '$lib/components/Bookmark.svelte';
 
 	export let data;
@@ -24,8 +24,8 @@
 	}
 
 	const logout = async () => {
-		// logout function
-	};
+		setToken(null, null);
+	}
 
 	const fetch_user = async () => {
 		const { data: response } = await api.get('/auth/me');
@@ -35,7 +35,9 @@
 		}
 	};
 
-	fetch_user();
+	if ($user) {
+		fetch_user();
+	}
 	let modal_toggle = false;
 </script>
 
@@ -120,7 +122,9 @@
 		<slot />
 	</main>
 </div>
+{#if $user}
 <Notification />
+{/if}
 <Modal active={modal_toggle} toggle={() => (modal_toggle = false)}>
 	<LoginView close={() => (modal_toggle = false)} />
 </Modal>

@@ -11,8 +11,8 @@
 	onMount(async () => {
 		const { data: response } = await api.get(`/post`);
 
-		console.log(response.content.posts);
 	  posts = response.content.posts.filter((post) => post.title.includes(query));
+		console.log(posts);
 	});
 </script>
 
