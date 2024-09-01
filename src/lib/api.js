@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { writable } from 'svelte/store';
 
 export const api = axios.create({
-	baseURL: '/api',
+	baseURL: 'https://tripee.p-e.kr/api',
 	headers: {
 		'Content-Type': 'application/json'
 	}
