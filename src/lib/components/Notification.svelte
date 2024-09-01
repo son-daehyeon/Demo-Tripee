@@ -19,8 +19,6 @@
 
 		const redirectUrl = notifications.filter(x => x.id === id)[0].redirectUrl;
 
-		console.log(await api.patch(`notification/read/${id}`));
-
 		notifications = notifications.filter(x => !x.read);
 
 		goto(redirectUrl);

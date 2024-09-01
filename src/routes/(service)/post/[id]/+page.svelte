@@ -6,6 +6,7 @@
 	import { loadTossPayments } from "@tosspayments/tosspayments-sdk"
 	import Bookmark from '$lib/components/Bookmark.svelte';
 	import { goto } from '$app/navigation';
+	import Comment from '$lib/components/Comment.svelte';
 
 	export let data;
 	const POST_ID = data.POST_ID;
@@ -25,7 +26,7 @@
 
 		const { orderId, paymentKey, amount } = await payment.requestPayment({
 			method: "CARD",
-			orderId: crypto.randomUUID(),
+			orderId: Math.random().toString(36).substr(2, 11),
 			orderName: title,
 			amount: {
 				currency: "KRW",
@@ -183,6 +184,8 @@
 		</div>
 	{/if}
 {/if}
+
+	<Comment id={POST_ID}/>
 
 {#if !is_owner && $user}
 	<Bookmark id={POST_ID}/>

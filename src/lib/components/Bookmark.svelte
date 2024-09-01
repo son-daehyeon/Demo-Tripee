@@ -31,7 +31,7 @@
 
 <button
 	on:click={onBookmarkClick}
-	class={`fixed right-[30px] bottom-[30px] rounded-full border w-[50px] h-[50px] ${bookmarked ? 'bg-yellow-300' : 'bg-white'}`}
+	class={`fixed right-[100px] bottom-[30px] rounded-full border w-[50px] h-[50px] ${bookmarked ? 'bg-yellow-300' : 'bg-white'}`}
 >
 	<div class="relative w-full h-full flex items-center justify-center">
 		<BookmarkIcon />

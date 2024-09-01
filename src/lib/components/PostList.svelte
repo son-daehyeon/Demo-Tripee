@@ -8,8 +8,8 @@
 
 	const fetchPosts = async () => {
 		const { data: response } = await api.get(`/post`);
-
 		posts = response.content.posts;
+		posts = posts.reverse();
 	};
 
 	if (!$page.url.pathname.includes('search')) {

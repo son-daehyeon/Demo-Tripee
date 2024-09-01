@@ -25,6 +25,7 @@
 
 	const logout = async () => {
 		setToken(null, null);
+		goto('/')
 	}
 
 	const fetch_user = async () => {

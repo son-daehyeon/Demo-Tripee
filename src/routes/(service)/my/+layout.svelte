@@ -7,10 +7,9 @@
 	// let { name, user_id, profile_image } = $user;
 
 	let profile_image = '' ? profile_image : '/profile.png';
-	let name = '박건민';
-	let user_id = 'pkm021118';
 
-	let changed_name = name;
+
+	let changed_name = $user?.name;
 	let password = '';
 	let check_password = '';
 
@@ -87,24 +86,25 @@
 					<img class="w-[50px] h-[50px] rounded-full" alt="profile" src={profile_image} />
 					<div class="flex flex-col ml-[8px]">
 						<input
-							bind:value={changed_name}
+							disabled={true}
+							bind:value={$user.name}
 							class="text-black text-[22px] bg-transparent outline-none ring-0"
 							maxlength="10"
 						/>
 						<p class="text-[14px] text-black">
-							{user_id}
+							{$user.userId}
 						</p>
 					</div>
 				</div>
 				<button
 					on:click={() => {
-						changed_password_toggle = true;
+						changed_password_toggle = false;
 					}}
 					class=" w-fit text-[12px] mt-[12px] mb-[17px] text-[#0085FF]"
 					>비밀번호 변경
 				</button>
 				<button
-					on:click={save_profile}
+					on:click={() => {profile_setting_toggle = false;}}
 					class=" absolute right-[13px] bottom-[13px] text-[12px] mt-[12px] text-white w-[49px] text-center rounded-[5px] bg-[#0085FF]"
 					>완료
 				</button>

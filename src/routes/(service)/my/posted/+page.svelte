@@ -11,18 +11,19 @@
 		const { data: response } = await api.get('/post/owned');
 
 		posts = response.content?.posts
+		posts = posts.reverse();
 	});
 </script>
 
 {#each posts as post}
 	<button
 		on:click={() => goto('/post/' + post.id)}
-		class="w-[912px] h-[108px] rounded-[16px] border border-[#C9C9C9] px-[10px] py-[16px] flex justify-between"
+		class="mt-5 w-[912px] h-[108px] rounded-[16px] border border-[#C9C9C9] px-[10px] py-[16px] flex justify-between"
 	>
-		<div class="flex flex-col text-left w-[774px]">
-			<p class="text-black text-[18px] w-[774px] font-medium break-all">{post.title}</p>
-			<p class="text-black text-[12px] w-[774px] break-all">{post.introduce}</p>
+		<div class="flex flex-col text-left w-[680px]">
+			<p class="text-black text-[18px] w-[680px] font-medium break-all">{post.title}</p>
+			<p class="text-black text-[12px] w-[680px] break-all">{post.introduce}</p>
 		</div>
-		<img class="ml-[16px] h-20" alt="post_image" src={`/api/uploads/${post.backgroundImage.fileName}`} />
+		<img class="ml-[16px] h-20 w-32 object-cover" alt="post_image" src={`/api/uploads/${post.backgroundImage.fileName}`} />
 	</button>
 {/each}

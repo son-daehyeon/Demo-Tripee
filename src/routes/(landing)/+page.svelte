@@ -33,6 +33,7 @@
 
 	const logout = async () => {
 		setToken(null, null);
+		goto('/')
 	}
 
 	if (api.defaults.headers.common['Authorization']) {
