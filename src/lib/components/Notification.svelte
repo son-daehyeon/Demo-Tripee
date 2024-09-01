@@ -17,11 +17,9 @@
 
 	async function view_notification(id) {
 
-		const redirectUrl = notifications.filter(x => x.id === id)[0].redirectUrl;
-
 		notifications = notifications.filter(x => !x.read);
 
-		goto(redirectUrl);
+		await api.patch(`/notification/read/${id}`);
 	}
 </script>
 
