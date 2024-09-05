@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import { user } from '$lib/api.js';
+  import { user } from '$lib/store/user.js';
   import SettingIcon from '$lib/icons/SettingIcon.svelte';
 
   let profile_image = '/profile.png';
@@ -18,11 +18,7 @@
   <div class="w-[217px] min-h-screen h-full flex flex-col items-center border-r border-[#C9C9C9]">
     <div class="w-[179px] flex items-center justify-between my-[14px]">
       <div class="flex space-x-[5px] items-center">
-        <img
-          class="w-[36px] h-[36px] rounded-full"
-          alt="profile"
-          src={$user?.avatar ? `/api/uploads/${$user?.avatar?.fileName}` : '/profile.png'}
-        />
+        <img class="w-[36px] h-[36px] rounded-full" alt="profile" src="/profile.png" />
         <p class="text-black text-[24px]">{$user?.name}</p>
       </div>
       <button

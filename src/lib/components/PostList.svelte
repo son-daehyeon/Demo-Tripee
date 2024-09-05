@@ -1,17 +1,22 @@
 <script>
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import { api } from '$lib/api';
   import PaidIcon from '$lib/icons/PaidIcon.svelte';
 
-  export let posts = [];
+  export let posts = [
+    {
+      id: 1,
+      title: '제주도 여행',
+      introduce: '이 일정은 제주도에서의 아름다운 3박 4일간의 여행을 소개합니다.',
+      paid: false,
+      backgroundImage: {
+        fileName: 'https://www.vviptravel.com/wp-content/uploads/2019/06/jeju-island-tour.jpg',
+      },
+    },
+  ];
 
-  if (!$page.url.pathname.includes('search')) {
-    (async () => {
-      const { data: response } = await api.get(`/post`);
-      posts = response.content.posts;
-      if (posts) posts = posts.reverse();
-    })();
+  if ($page.url.pathname.includes('search')) {
+    posts = [];
   }
 </script>
 
@@ -25,7 +30,7 @@
     >
       <img
         class="w-[296px] h-[221px] bg-zinc-200 rounded-[15px] object-cover"
-        src={`/api/uploads/${post.backgroundImage.fileName}`}
+        src={post.backgroundImage.fileName}
         alt={post.title}
       />
       <div class="flex items-center mt-[9px]">

@@ -1,6 +1,5 @@
 <script>
   import { goto } from '$app/navigation';
-  import { api } from '$lib/api.js';
   import ImageIcon from '$lib/icons/ImageIcon.svelte';
   import { marked } from 'marked';
 
@@ -50,47 +49,7 @@
       return;
     }
 
-    let background_image_filename;
-
-    {
-      const formData = new FormData();
-      formData.append('file', background_image_file);
-
-      const { data: response } = await api.post('/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      background_image_filename = response.content.image.id;
-    }
-
-    for (const content of contents) {
-      if (content.type === 'image' && content.file) {
-        const formData = new FormData();
-        formData.append('file', content.file);
-
-        const { data: response } = await api.post('/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-        content.src = response.content.image.id;
-        delete content.file;
-      }
-    }
-
-    await api.put('/post', {
-      title,
-      content: JSON.stringify(contents),
-      introduce,
-      imageId: background_image_filename,
-      isPaid: Number(price?.replace(/\D/g, '')) > 0,
-      price: Number(price?.replace(/\D/g, '')),
-    });
-
-    await goto('/my/posted');
+    alert('데모 환경에서는 글을 작성할 수 없습니다.');
   }
 
   $: {
@@ -154,7 +113,7 @@
         e.preventDefault();
         if (prompt === '') {
           contents.push({
-            type: 'linebreak'
+            type: 'linebreak',
           });
           prompt = '';
           contents = contents;
@@ -162,7 +121,7 @@
         }
         contents.push({
           type: 'markdown',
-          markdown: prompt
+          markdown: prompt,
         });
         contents = contents;
         prompt = '';

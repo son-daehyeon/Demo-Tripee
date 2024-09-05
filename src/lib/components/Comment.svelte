@@ -1,21 +1,20 @@
 <script>
-  import { onMount } from 'svelte';
-  import { api } from '$lib/api.js';
   import CommentIcon from '$lib/icons/CommentIcon.svelte';
 
-  export let id;
-
   let toggle = false;
-  let comments = [];
+  let comments = [
+    {
+      owner: {
+        avatar: {
+          fileName: null,
+        },
+        name: '홍길동',
+      },
+      createdAt: '2024-09-01T12:00:00',
+      content: '안녕하세요',
+    },
+  ];
   let comment_input = '';
-
-  onMount(async () => {
-    const { data: response } = await api.get(`/comment/${id}`);
-
-    comments = response.content?.comments;
-
-    if (comments) comments = comments.reverse();
-  });
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -36,13 +35,7 @@
       {#each comments as comment}
         <div class=" p-4 border-b border-[#C9C9C9]">
           <div class=" flex items-center">
-            <img
-              alt="profile_image"
-              src={comment.owner.avatar
-                ? `/api/uploads/${comment.owner.avatar.fileName}`
-                : '/profile.png'}
-              class=" w-[20px] h-[20px] rounded-full"
-            />
+            <img alt="profile_image" src="/profile.png" class=" w-[20px] h-[20px] rounded-full" />
             <p class=" ml-1 text-[13px]">{comment.owner.name}</p>
           </div>
           <p class="text-[7px] text-[#787878]">{formatDate(new Date(comment.createdAt))}</p>
@@ -54,10 +47,19 @@
       bind:value={comment_input}
       on:keydown={async (e) => {
         if (e.key === 'Enter') {
-          await api.post(`/comment/${id}`, {
-            content: comment_input,
-            anonymous: false,
-          });
+          comments = [
+            ...comments,
+            {
+              owner: {
+                avatar: {
+                  fileName: null,
+                },
+                name: 'Demo User',
+              },
+              createdAt: new Date().toISOString(),
+              content: comment_input,
+            },
+          ];
 
           comment_input = '';
         }

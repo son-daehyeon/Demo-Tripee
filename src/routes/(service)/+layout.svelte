@@ -1,11 +1,8 @@
 <script>
   import { goto } from '$app/navigation';
-  import { api, setToken, user } from '$lib/api.js';
-
-  import LoginView from '$lib/views/LoginView.svelte';
+  import { user } from '$lib/store/user.js';
 
   import Notification from '$lib/components/Notification.svelte';
-  import Modal from '$lib/components/Modal.svelte';
 
   import Logo from '$lib/icons/Logo.svelte';
   import SearchIcon from '$lib/icons/SearchIcon.svelte';
@@ -15,21 +12,11 @@
   import LogoutIcon from '$lib/icons/LogoutIcon.svelte';
 
   import '../../app.css';
-  import { onMount } from 'svelte';
 
   export let data;
   let { query } = data;
 
   let dropboxToggle = false;
-  let modalToggle = false;
-
-  onMount(async () => {
-    if (api.defaults.headers.common['Authorization']) {
-      const { data: response } = await api.get('/auth/me');
-
-      user.set(response.content.user);
-    }
-  });
 
   const search = async () => {
     await goto('/');
@@ -37,8 +24,7 @@
   };
 
   const logout = () => {
-    setToken(null);
-    goto('/');
+    alert('데모 환경에서는 로그아웃을 할 수 없습니다.');
   };
 </script>
 
@@ -106,12 +92,7 @@
             </div>
           {/if}
         {:else}
-          <button
-            on:click={() => {
-              modalToggle = true;
-            }}
-            class="bg-[#1A91FF] w-[73px] h-[30px] text-[16px] text-white rounded-[9px]"
-          >
+          <button class="bg-[#1A91FF] w-[73px] h-[30px] text-[16px] text-white rounded-[9px]">
             시작하기
           </button>
         {/if}
@@ -126,6 +107,3 @@
 {#if $user}
   <Notification />
 {/if}
-<Modal active={modalToggle} toggle={() => (modalToggle = false)}>
-  <LoginView close={() => (modalToggle = false)} />
-</Modal>

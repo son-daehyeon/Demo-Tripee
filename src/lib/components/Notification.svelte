@@ -1,33 +1,24 @@
 <script>
-  import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
-  import { api } from '$lib/api.js';
   import NotificationIcon from '$lib/icons/NotificationIcon.svelte';
 
   let toggle = false;
-  let notifications = [];
-
-  onMount(async () => {
-    const { data: response } = await api.get('/notification');
-
-    notifications = response.content?.notifications.filter((x) => !x.read);
-  });
+  let notifications = [
+    {
+      id: '1',
+      read: false,
+      title: '예시 알림입니다.',
+      content: '예시 알림 내용입니다.',
+    },
+  ];
 
   async function readNotification(id) {
-    let url;
-
     for (let notification of notifications) {
       if (notification.id === id) {
         notification.read = true;
-        url = notification.redirectUrl;
       }
     }
 
-    await api.patch(`/notification/read/${id}`);
-
     notifications = notifications.filter((x) => !x.read);
-
-    await goto(url);
   }
 </script>
 
@@ -37,7 +28,7 @@
   >
     <div class="flex flex-col items-center p-[14px] space-y-[12px]">
       {#each notifications as notification}
-        <button on:click={() => readNotification(notification.id)} class="w-full flex items-center">
+        <button on:click={readNotification} class="w-full flex items-center">
           <div class="flex flex-col">
             <p class="text-[12px] text-black my-[3px]">
               {notification.title}

@@ -1,17 +1,7 @@
 <script>
-  import { api } from '$lib/api.js';
   import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
 
   let posts = [];
-
-  onMount(async () => {
-    const { data: response } = await api.get('/post/saved');
-
-    posts = response.content?.posts;
-
-    if (posts) posts = posts.reverse();
-  });
 </script>
 
 {#each posts as post}
